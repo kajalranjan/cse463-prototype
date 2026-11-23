@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSE 463 Prototype – Fabindia Dupatta Checkout Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="proto-bar">
+  <span><strong>CSE 463 class prototype</strong> · Redesign concept based on fabindia.com · Not a real store: no payments or orders are processed</span>
+  <span class="sp"></span>
+  <button id="cardBtn" type="button">Delivery card</button>
+  <button id="resetBtn" type="button">↺ Reset prototype</button>
+</div>
+<header class="site">
+  <div class="wordmark" id="home" tabindex="0" role="button">fabindia<small>REDESIGN CONCEPT</small></div>
+  <nav class="cats"><span class="on">WOMEN</span><span>MEN</span><span>KIDS</span><span>HOME</span><span>GIFTING</span></nav>
+  <span class="sp"></span>
+  <button class="bagbtn" id="bagBtn" type="button" aria-label="Shopping bag">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+    Bag <span class="n" id="bagN">0</span>
+  </button>
+</header>
+<main id="app"></main>
+<div class="sid" id="sid"></div>
+<div id="layer"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
