@@ -187,7 +187,7 @@ function S4(){
    <div class="small muted">Simulated – nothing is charged and no card details are collected.</div>
    <div class="pay">${[["UPI","UPI (simulated)"],["COD","Cash on delivery"],["CARD","Credit / debit card (simulated)"]].map(([v,l])=>`<label class="${st.pay===v?'on':''}"><input type="radio" name="pay" value="${v}" ${st.pay===v?"checked":""}>${l}</label>`).join("")}</div>
   </div>
-  <div class="panel"><h3>Order summary</h3>${st.bag.map(i=>{const p=byId(i.pid);return `<div class="small" style="display:flex;gap:10px;margin-bottom:10px"><div style="width:44px;flex:none">${img(p,i.colour)}</div><div><b>${esc(i.colour)} ${p.name}</b><br>Free Size · Qty ${i.qty}</div></div>`}).join("")}
+  <div class="panel"><h3>Order summary</h3>${st.bag.map(i=>{const p=byId(i.pid);return `<div class="small" style="display:flex;gap:10px;margin-bottom:10px"><div style="width:44px;flex:none">${img(p,i.colour)}</div><div><b>${esc(i.colour)} ${p.name}</b><br>Free Size, Qty ${i.qty}</div></div>`}).join("")}
    <button class="link small" id="editBag">Edit bag</button>
    <div style="margin-top:10px">${bill()}</div>
    <button class="btn block" style="margin-top:14px" id="toReview">CONTINUE TO REVIEW</button>
@@ -211,7 +211,7 @@ function reviewBody(mode){
 function reviewSide(mode){
   return `<div class="panel"><h3>Total</h3>${bill()}
    ${mode==="S7"&&st.change&&st.change.priceDiff?`<div class="small" style="margin-top:6px"><span class="hl">Total updated: ${rs(st.change.oldTotal)} → ${rs(total())}</span></div>`:mode==="S7"?`<div class="small muted" style="margin-top:6px">Total unchanged.</div>`:""}
-   <button class="btn block" style="margin-top:14px" id="placeBtn">PLACE ORDER · ${rs(total())}</button>
+   <button class="btn block" style="margin-top:14px" id="placeBtn">PLACE ORDER (${rs(total())})</button>
    <div class="small muted" style="margin-top:6px;text-align:center">Prototype – no payment is taken.</div></div>`;
 }
 function S5(){ return `${stepper("S5")}<h2 style="font-size:28px;margin-bottom:12px">Review your order</h2><div class="two"><div>${reviewBody("S5")}</div>${reviewSide("S5")}</div>`; }
@@ -226,8 +226,8 @@ function S6(){
    <div>The <b>${esc(i.colour)} ${p.name}</b> sold out while it was in your bag. <b>Your order has not been placed and nothing was charged.</b> Pick a replacement below and you’ll go straight back to review.</div>
    <div class="kept"><div>Delivery address kept (${esc(st.form.name)}, ${esc(st.form.city)} ${esc(st.form.pin)})</div><div>Payment method kept (${{UPI:"UPI",COD:"Cash on delivery",CARD:"Card"}[st.pay]})</div><div>Quantity kept (${i.qty})</div></div></div></div>
    <div class="opts">
-    ${other?`<div class="optcard">${img(p,other)}<div><div class="small muted">Same dupatta, other colour</div><b>${esc(other)} ${p.name}</b><div class="small">Free Size (${p.dims}) · <span class="price">${rs(p.price)}</span> · <span style="color:var(--ok)">In stock</span></div><div class="small muted">Total stays ${rs(total())}</div><button class="btn" data-swap="same">Choose ${esc(other)}</button></div></div>`:""}
-    <div class="optcard">${img(sim,simC)}<div><div class="small muted">Similar dupatta</div><b>${esc(simC)} ${sim.name}</b><div class="small">Free Size (${sim.dims}) · <span class="price">${rs(sim.price)}</span> · <span style="color:var(--ok)">In stock</span></div><div class="small muted">New total would be ${rs(sim.price*i.qty+((sim.price*i.qty)>=1000?0:99))}</div><button class="btn ghost" data-swap="sim" data-sim="${sim.id}">Choose this instead</button></div></div>
+    ${other?`<div class="optcard">${img(p,other)}<div><div class="small muted">Same dupatta, other colour</div><b>${esc(other)} ${p.name}</b><div class="small">Free Size (${p.dims}), <span class="price">${rs(p.price)}</span>, <span style="color:var(--ok)">In stock</span></div><div class="small muted">Total stays ${rs(total())}</div><button class="btn" data-swap="same">Choose ${esc(other)}</button></div></div>`:""}
+    <div class="optcard">${img(sim,simC)}<div><div class="small muted">Similar dupatta</div><b>${esc(simC)} ${sim.name}</b><div class="small">Free Size (${sim.dims}), <span class="price">${rs(sim.price)}</span>, <span style="color:var(--ok)">In stock</span></div><div class="small muted">New total would be ${rs(sim.price*i.qty+((sim.price*i.qty)>=1000?0:99))}</div><button class="btn ghost" data-swap="sim" data-sim="${sim.id}">Choose this instead</button></div></div>
    </div>
    <div style="margin-top:12px" class="small">Prefer to look around? <button class="link" id="s6bag">Go to bag</button> (your details stay saved).</div>
   </div>
@@ -248,7 +248,7 @@ function S8(){
    ${st.bag.map(i=>bagItem(i,0,{})).join("")}
    <div class="rv-row" style="border-top:1px solid var(--line);margin-top:14px"><div class="k">Arriving</div><div><b>${eta()}</b> (estimate)</div><span></span></div>
    <div class="rv-row"><div class="k">Delivering to</div><div>${esc(f.name)}, ${esc(f.addr1)}, ${esc(f.city)} ${esc(f.pin)}</div><span></span></div>
-   <div class="rv-row"><div class="k">Paid</div><div><b>${rs(total())}</b> · ${payL}</div><span></span></div>
+   <div class="rv-row"><div class="k">Paid</div><div><b>${rs(total())}</b>, ${payL}</div><span></span></div>
    <div class="rv-row"><div class="k">What’s next</div><div>We’ll message ${esc(f.phone)} when it ships. This order is final (non-returnable).</div><span></span></div>
    <div style="display:flex;gap:10px;margin-top:18px"><button class="btn" id="again">Continue shopping</button><button class="btn ghost" id="reset2">Reset prototype</button></div>
   </div>`;
@@ -260,9 +260,9 @@ function render(){
   const s = st.screen==="S5"&&st.change ? "S7" : st.screen;
   st.screen=s;
   document.getElementById("app").innerHTML=VIEWS[s]();
-  document.getElementById("sid").textContent=s+" · "+SCREEN_NAMES[s]+(s==="S4"&&Object.keys(st.errors).length?" (error)":"");
+  document.getElementById("sid").textContent=s+": "+SCREEN_NAMES[s]+(s==="S4"&&Object.keys(st.errors).length?" (error)":"");
   document.getElementById("bagN").textContent=st.bag.reduce((a,i)=>a+i.qty,0);
-  document.title = s+" – CSE 463 Prototype – Fabindia Dupatta Checkout Redesign";
+  document.title = s+": "+SCREEN_NAMES[s]+" – CSE 463 Prototype – Fabindia Dupatta Checkout Redesign";
   const L=document.getElementById("layer");
   L.innerHTML=(st.toast?`<div class="toast" role="status">${st.toast}</div>`:"")+(st.modal?modalHTML():"");
   bind();
@@ -289,7 +289,7 @@ function bind(){
     document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{st.colour=b.dataset.c; render();});
     on("qm",()=>{st.qty=Math.max(1,(st.qty||1)-1);render();}); on("qp",()=>{st.qty=Math.min(5,(st.qty||1)+1);render();});
     const pinIn=$("pinIn"); if(pinIn){ pinIn.oninput=()=>{st.pin=pinIn.value.replace(/\D/g,"");}; pinIn.onkeydown=e=>{if(e.key==="Enter") $("pinBtn").click();}; }
-    on("pinBtn",()=>{ st.pin=$("pinIn").value.replace(/\D/g,""); if(validPin(st.pin)){ st.pinMsg={ok:true,t:`✓ Delivers to ${st.pin} by ${eta()} (estimate) · Free shipping`}; if(!st.form.pin) st.form.pin=st.pin; } else st.pinMsg={ok:false,t:"Enter a valid 6-digit PIN code (e.g. 110016)."}; render(); });
+    on("pinBtn",()=>{ st.pin=$("pinIn").value.replace(/\D/g,""); if(validPin(st.pin)){ st.pinMsg={ok:true,t:`✓ Delivers to ${st.pin} by ${eta()} (estimate), free shipping`}; if(!st.form.pin) st.form.pin=st.pin; } else st.pinMsg={ok:false,t:"Enter a valid 6-digit PIN code (e.g. 110016)."}; render(); });
     on("cancelEdit",()=>{st.editIndex=null;go("S3");});
     on("addBtn",()=>{
       if(st.editIndex!==null){ const it=st.bag[st.editIndex]; const old=it.colour; const wasSold=isSold(it.pid,old); if(old!==st.colour){ it.colour=st.colour; if(wasSold||st.recoveryDone){ st.change={idx:st.editIndex,text:`colour changed from ${old} to ${st.colour}`,oldTotal:total(),priceDiff:false}; st.recoveryDone=true; } } st.editIndex=null; go("S3"); st.toast=null; return; }
